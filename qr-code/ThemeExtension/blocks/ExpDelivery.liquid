@@ -1,0 +1,190 @@
+<div {% if block.settings.horizontal_alignment == "center" %} style="display: flex;justify-content: center;"{% endif %}>
+<div class="pincode_content">
+  <div class="map-image">
+    <svg class="symbol" xmlns="http://www.w3.org/2000/svg">
+      <g fill="none" fill-rule="evenodd">
+        <ellipse cx="9" cy="14.478" fill="{{ block.settings.logo_color_base }}" rx="9" ry="3.522"/>
+        <path fill="{{ block.settings.logo_color_base_top }}" d="M8.609 7.01c-1.08 0-1.957-.826-1.957-1.845 0-.489.206-.958.573-1.304a2.02 2.02 0 0 1 1.384-.54c1.08 0 1.956.825 1.956 1.844 0 .49-.206.959-.573 1.305s-.864.54-1.383.54zM3.13 5.165c0 3.874 5.479 8.922 5.479 8.922s5.478-5.048 5.478-8.922C14.087 2.313 11.634 0 8.609 0 5.583 0 3.13 2.313 3.13 5.165z"/>
+      </g>
+    </svg>
+    <span class="pre-text">{{ block.settings.pretext }}</span>
+  </div>
+  <label class="pintext" for="pincodeinput">{{ block.settings.pincode-text }}</label>
+  <input type="text" maxlength="6" pattern="[0-9]*" value="" placeholder="{{ block.settings.placeholder-text }}" name="pincode" id="pincodeinput" class="pincodeinput" oninput="this.value=this.value.replace(/[^0-9]/g,'');">
+  <button type="submit" class="pincodebtn btn" id="pincodeSubmitBttn">Check</button>
+  <div class="defaultOutputMsgId" id="defaultOutputMsgId"></div>
+</div>
+</div>
+
+<style>
+  .pincode_content {
+      padding: {{ block.settings.app_box_padding }}px;
+      background-color: {{ block.settings.app_bg_color }};
+      width: max-content;
+  }
+  .map-image {
+    display: flex;
+    align-items: center;
+  }
+  .symbol {
+    width: 18px;
+    height: 18px;
+    vertical-align: middle;
+    transition: fill .1s;
+  }
+  .pincodeinput {
+      font-size: 12px !important;
+      margin-right: 5px !important;
+      padding: 5px !important;
+      border: 1px solid {{ block.settings.input_box_color }} !important;
+      background: {{ block.settings.input_box_bg_color }} !important;
+  }
+  .pincodebtn {
+      padding: 5px 10px !important;
+      background-color: {{ block.settings.button_bg_color }} !important;
+      color: {{ block.settings.button_color }} !important;
+      border: none;
+      cursor: pointer;
+      min-width: 100px;
+  }
+  .pincodebtn:hover {
+      background-color: {{ block.settings.button_hover_color }};
+  }
+
+  .pre-text {
+    padding-left: 10px;
+    color: {{ block.settings.text_color }};
+  }
+  .pintext {
+    color: {{ block.settings.pin_color }};
+  }
+  .defaultOutputMsgId {
+    max-width: 260px;
+  }
+</style>
+<script>
+  var pickup_time = "{{ block.settings.pickup_time }}";
+</script>
+
+<script src="{{ 'ExpDelivery.js' | asset_url }}" defer="defer"></script>
+
+{% schema %}
+{
+  "name": "Expected Delivery",
+  "target": "section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "horizontal_alignment",
+      "label": "Alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "pickup_time",
+      "label": "Select Pickup Timing",
+      "default": 12,
+      "step": 0.5,
+      "min": 8,
+      "max": 20
+    },
+    {
+      "type": "text",
+      "id": "pretext",
+      "label": "Check Delivery",
+      "default": "Check Delivery"
+    },
+    {
+      "type": "text",
+      "id": "pincode-text",
+      "label": "Pincode: ",
+      "default": "Pincode: "
+    },
+    {
+      "type": "text",
+      "id": "placeholder-text",
+      "label": "Placeholder Text",
+      "default": "Enter Pincode"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button bg Color",
+      "default": "#000"
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Button Color",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_color",
+      "label": "Button Hover Color",
+      "default": "#000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#000"
+    },
+    {
+      "type": "color",
+      "id": "pin_color",
+      "label": "Pincode Text Color",
+      "default": "#000"
+    },
+    {
+      "type": "color",
+      "id": "app_bg_color",
+      "label": "App background Color",
+      "default": "#fff"
+    },
+    {
+      "type": "range",
+      "id": "app_box_padding",
+      "label": "App box padding",
+      "default": 0,
+      "step": 1,
+      "min": 0,
+      "max": 100
+    },
+    {
+      "type": "color",
+      "id": "logo_color_base_top",
+      "label": "Logo Top Color",
+      "default": "#2874F0"
+    },
+    {
+      "type": "color",
+      "id": "logo_color_base",
+      "label": "Logo Base Color",
+      "default": "#FFE11B"
+    },
+    {
+      "type": "color",
+      "id": "input_box_color",
+      "label": "Input Box Color",
+      "default": "#ccc"
+    },
+    {
+      "type": "color",
+      "id": "input_box_bg_color",
+      "label": "Input background Color",
+      "default": "#fff"
+    }
+  ]
+}
+{% endschema %}
